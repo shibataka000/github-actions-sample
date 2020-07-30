@@ -1,0 +1,50 @@
+name: Redis container example
+
+on: push
+
+defaults:
+  run:
+    shell: bash
+    working-directory: redis-example
+
+jobs:
+  # コンテナジョブのラベル
+  container-job:
+    # コンテナはLinuxベースのオペレーティングシステム内で実行しなければならない
+    runs-on: ubuntu-latest
+    # `container-job`が実行されるDocker Hubのイメージ
+    container: node:10.18-jessie
+
+    # `container-job`と実行されるサービスコンテナ
+    services:
+      # サービスコンテナへのアクセスに使われるラベル
+      redis:
+        # Docker Hubのイメージ
+        image: redis
+        # redisが起動するまで待つヘルスチェックの設定
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      # CIテストの実行前にリポジトリからコードのコピーをダウンロード
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      # `package.json`ファイル内のすべての依存関係のクリーンインストールの実行
+      # 詳しい情報についてはhttps://docs.npmjs.com/cli/ci.htmlを参照
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Connect to Redis
+        # Redisクライアントを作成し、クライアントにデータを展開し、
+        # データを取り出すスクリプトを実行
+        run: node client.js
+        # `client.js`スクリプトが新しいRedisクライアントを作成するのに使う環境変数
+        env:
+          # Redisサービスコンテナとの通信に使われるホスト名
+          REDIS_HOST: redis
+          # デフォルトのRedisポート
+          REDIS_PORT: 6379
