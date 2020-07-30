@@ -1,0 +1,18 @@
+name: Sample Workflow
+
+on: [push]
+
+jobs:
+  build:
+    name: Sample Job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use secrets directly
+        run: echo "${{ secrets.NAME }}"
+      - name: Use secrets as env
+        run: echo "${NAME}"
+        env:
+          NAME: ${{ secrets.NAME }}
+      - name: Show GITHUB_ACTOR
+        run: echo ${{ github.actor }}
