@@ -1,0 +1,37 @@
+name: Clone other repositories
+
+on: [push]
+
+jobs:
+  build:
+    name: Clone other repositories
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install curl -y
+          curl -OL https://github.com/cli/cli/releases/download/v0.11.1/gh_0.11.1_linux_amd64.deb
+          sudo apt install ./gh_0.11.1_linux_amd64.deb
+      - name: Configure GitHub CLI
+        run: |
+          mkdir ${HOME}/.config/gh -p
+          echo "git_protocol: https" >> ${HOME}/.config/gh/config.yml
+          cat <<EOF > ${HOME}/.config/gh/hosts.yml
+          github.com:
+              oauth_token: ${{ secrets.GITHUB_TOKEN }}
+          EOF
+      - name: Try to clone this public repository
+        run: |
+          cd ${HOME}
+          gh repo clone https://github.com/shibataka000/github-actions-sample
+      - name: Try to clone other public repository
+        run: |
+          cd ${HOME}
+          gh repo clone https://github.com/shibataka000/snippets
+      # # This step doesn't work because ${{ github.token }} is scoped to the current repository.
+      # # See https://github.com/actions/checkout#checkout-multiple-repos-private more details.
+      # - name: Try to clone other private repository
+      #   run: |
+      #     cd ${HOME}
+      #     gh repo clone shibataka000/github-actions-sample-private
