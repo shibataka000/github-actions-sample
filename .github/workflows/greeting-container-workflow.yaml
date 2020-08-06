@@ -1,0 +1,12 @@
+name: Greeting Workflow
+
+on: [push]
+
+jobs:
+  build:
+    name: Greeting Job
+    runs-on: ubuntu-latest
+    container: python:3.8
+    steps:
+      - name: Greeting
+        run: python -c 'print("Hello World")'
