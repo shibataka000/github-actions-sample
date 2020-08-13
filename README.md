@@ -4,6 +4,7 @@
 ![Clone other repositories](https://github.com/shibataka000/github-actions-sample/workflows/Clone%20other%20repositories/badge.svg)
 ![Greeting Workflow](https://github.com/shibataka000/github-actions-sample/workflows/Greeting%20Workflow/badge.svg)
 ![Greeting Container Workflow](https://github.com/shibataka000/github-actions-sample/workflows/Greeting%20Container%20Workflow/badge.svg)
+![Hello world composite action](https://github.com/shibataka000/github-actions-sample/workflows/Hello%20world%20composite%20action/badge.svg)
 ![Hello world docker action](https://github.com/shibataka000/github-actions-sample/workflows/Hello%20world%20docker%20action/badge.svg)
 ![Hello world JavaScript action](https://github.com/shibataka000/github-actions-sample/workflows/Hello%20world%20JavaScript%20action/badge.svg)
 ![Python package](https://github.com/shibataka000/github-actions-sample/workflows/Python%20package/badge.svg)
